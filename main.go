@@ -6,6 +6,8 @@ import (
 	"golang-clean-architecture/internal/module/customer"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/fiber/v2/middleware/requestid"
 )
 
 func main() {
@@ -13,6 +15,10 @@ func main() {
 	dbConnection := component.GetDbConnection(conf)
 
 	app := fiber.New()
+	app.Use(requestid.New())
+	app.Use(logger.New(logger.Config{
+		Format: "[${locals:requestid}] ${ip} - ${method} ${status} ${path} ${latency} \n",
+	}))
 
 	customerRepository := customer.NewRepository(dbConnection)
 	customerService := customer.NewService(customerRepository)

@@ -15,6 +15,5 @@ func GetDbConnection(conf config.Config) *sql.DB {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-	log.Println(strInfo)
 	return db
 }
