@@ -4,7 +4,6 @@ import (
 	"context"
 	"golang-clean-architecture/domain"
 	"golang-clean-architecture/internal/util"
-	"log"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -19,13 +18,8 @@ func NewApi(app *fiber.App, customerService domain.CustomerService) {
 		customerService: customerService,
 	}
 
-	app.Get("/", api.FooBar)
 	app.Get("/v1/customers", api.AllCustomers)
-}
-
-func (a api) FooBar(c *fiber.Ctx) error {
-	log.Println("ok")
-	return c.Status(200).JSON(fiber.Map{"message": "ok"})
+	app.Post("/v1/customers", api.SaveCustomer)
 }
 
 func (a api) AllCustomers(ctx *fiber.Ctx) error {
@@ -36,4 +30,24 @@ func (a api) AllCustomers(ctx *fiber.Ctx) error {
 	util.ResponseInterceptor(c, &apiResponse)
 
 	return ctx.JSON(apiResponse)
+}
+
+func (a api) SaveCustomer(ctx *fiber.Ctx) error {
+	c, cancel := context.WithTimeout(ctx.Context(), 5*time.Second)
+	defer cancel()
+
+	var customerData domain.CustomerDataShow
+	if err := ctx.BodyParser(&customerData); err != nil {
+		apiResponse := domain.ApiResponse{
+			Code:    "400",
+			Message: "body param invalid",
+		}
+		util.ResponseInterceptor(c, &apiResponse)
+		return ctx.Status(400).JSON(apiResponse)
+	}
+
+	apiResponse := a.customerService.Save(c, customerData)
+	util.ResponseInterceptor(c, &apiResponse)
+
+	return ctx.Status(200).JSON(apiResponse)
 }
