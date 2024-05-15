@@ -6,7 +6,7 @@ import (
 )
 
 type Customer struct {
-	ID        int64     `db:"id"`
+	ID        int64     `db:"id" goqu:"omitempty"`
 	Name      string    `db:"name"`
 	Phone     string    `db:"phone"`
 	CreatedAt time.Time `db:"created_at"`
