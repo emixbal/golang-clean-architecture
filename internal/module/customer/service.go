@@ -23,9 +23,9 @@ func (s service) All(c context.Context) domain.ApiResponse {
 		}
 	}
 
-	var CustomerDataShow []domain.CustomerDataShow
+	var CustomerData []domain.CustomerData
 	for _, v := range customer {
-		CustomerDataShow = append(CustomerDataShow, domain.CustomerDataShow{
+		CustomerData = append(CustomerData, domain.CustomerData{
 			ID:    v.ID,
 			Name:  v.Name,
 			Phone: v.Phone,
@@ -35,11 +35,11 @@ func (s service) All(c context.Context) domain.ApiResponse {
 	return domain.ApiResponse{
 		Code:    "200",
 		Message: "success",
-		Data:    CustomerDataShow,
+		Data:    CustomerData,
 	}
 }
 
-func (s service) Save(ctx context.Context, customerData domain.CustomerDataShow) domain.ApiResponse {
+func (s service) Save(ctx context.Context, customerData domain.CustomerData) domain.ApiResponse {
 	customer := domain.Customer{
 		Name:      customerData.Name,
 		Phone:     customerData.Phone,

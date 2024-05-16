@@ -22,10 +22,10 @@ type CustomerRepository interface {
 
 type CustomerService interface {
 	All(ctx context.Context) ApiResponse
-	Save(ctx context.Context, customerData CustomerDataShow) ApiResponse
+	Save(ctx context.Context, customerData CustomerData) ApiResponse
 }
 
-type CustomerDataShow struct {
+type CustomerData struct {
 	ID    int64  `db:"id"`
 	Name  string `db:"name"`
 	Phone string `db:"phone"`

@@ -20,5 +20,5 @@ type VehicleRepository interface {
 }
 
 type VehicleService interface {
-	FindByID(ctx context.Context, vehicle Vehicle) ApiResponse
+	FindHistorical(ctx context.Context, vin string) ApiResponse
 }

@@ -36,7 +36,7 @@ func (a api) SaveCustomer(ctx *fiber.Ctx) error {
 	c, cancel := context.WithTimeout(ctx.Context(), 5*time.Second)
 	defer cancel()
 
-	var customerData domain.CustomerDataShow
+	var customerData domain.CustomerData
 	if err := ctx.BodyParser(&customerData); err != nil {
 		apiResponse := domain.ApiResponse{
 			Code:    "400",
