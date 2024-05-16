@@ -50,7 +50,6 @@ func (r *repository) Insert(ctx context.Context, history *domain.History) error 
 		}).
 		Returning("id").Executor()
 
-	_, err := executor.ScanStructContext(ctx, &history)
-
+	_, err := executor.Exec()
 	return err
 }

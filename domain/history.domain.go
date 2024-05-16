@@ -6,7 +6,7 @@ import (
 )
 
 type History struct {
-	ID         int64     `db:"id"`
+	ID         int64     `db:"id" goqu:"omitempty"`
 	VehicleID  int64     `db:"vehicle_id"`
 	CustomerID int64     `db:"customer_id"`
 	Notes      string    `db:"notes"`

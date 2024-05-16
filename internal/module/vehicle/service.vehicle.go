@@ -3,6 +3,7 @@ package vehicle
 import (
 	"context"
 	"golang-clean-architecture/domain"
+	"log"
 	"time"
 )
 
@@ -68,5 +69,47 @@ func (s *service) FindHistorical(ctx context.Context, vin string) domain.ApiResp
 		Code:    "200",
 		Message: "ok",
 		Data:    result,
+	}
+}
+
+// StoreHistorical implements domain.VehicleService.
+func (s *service) StoreHistorical(ctx context.Context, request domain.VehicleHistoricalRequest) domain.ApiResponse {
+	vehicle, err := s.vehicleRepository.FindByVIN(ctx, request.VIN)
+	if err != nil {
+		return domain.ApiResponse{
+			Code:    "500",
+			Message: "err.Error()",
+		}
+	}
+
+	if vehicle == (domain.Vehicle{}) {
+		vehicle.Brand = request.Brand
+		vehicle.VIN = request.VIN
+		vehicle.CreatedAt = time.Now()
+
+		err = s.vehicleRepository.Insert(ctx, &vehicle)
+		if err != nil {
+			return domain.ApiResponse{Code: "500", Message: err.Error()}
+		}
+	}
+
+	err = s.historyRepository.Insert(ctx, &domain.History{
+		VehicleID:  vehicle.ID,
+		CustomerID: request.Customer,
+		PIC:        request.PIC,
+		Notes:      request.Notes,
+	})
+
+	if err != nil {
+		log.Println(err)
+		return domain.ApiResponse{
+			Code:    "500",
+			Message: err.Error(),
+		}
+	}
+
+	return domain.ApiResponse{
+		Code:    "200",
+		Message: "ok",
 	}
 }
