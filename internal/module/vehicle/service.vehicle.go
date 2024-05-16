@@ -45,9 +45,26 @@ func (s *service) FindHistorical(ctx context.Context, vin string) domain.ApiResp
 		}
 	}
 
+	var historiesData []domain.HistoryData
+	for _, val := range histories {
+		historiesData = append(historiesData, domain.HistoryData{
+			VehicleID:  val.VehicleID,
+			CustomerID: val.CustomerID,
+			Notes:      val.Notes,
+			PIC:        val.PIC,
+		})
+	}
+
+	result := domain.VehicleHistorical{
+		ID:        vehicle.ID,
+		VIN:       vehicle.VIN,
+		Brand:     vehicle.Brand,
+		Histories: historiesData,
+	}
+
 	return domain.ApiResponse{
 		Code:    "200",
 		Message: "ok",
-		Data:    histories,
+		Data:    result,
 	}
 }

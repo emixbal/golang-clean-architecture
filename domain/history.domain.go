@@ -21,3 +21,10 @@ type HistoryRepository interface {
 }
 
 type HistoryService interface{}
+
+type HistoryData struct {
+	VehicleID  int64  `json:"vehicle_id"`
+	CustomerID int64  `json:"customer_id"`
+	Notes      string `json:"notes"`
+	PIC        string `json:"pic"`
+}

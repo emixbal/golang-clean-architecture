@@ -26,7 +26,7 @@ type CustomerService interface {
 }
 
 type CustomerData struct {
-	ID    int64  `db:"id"`
-	Name  string `db:"name"`
-	Phone string `db:"phone"`
+	ID    int64  `json:"id"`
+	Name  string `json:"name"`
+	Phone string `json:"phone"`
 }
