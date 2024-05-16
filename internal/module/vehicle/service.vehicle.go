@@ -3,6 +3,7 @@ package vehicle
 import (
 	"context"
 	"golang-clean-architecture/domain"
+	"time"
 )
 
 type service struct {
@@ -52,6 +53,7 @@ func (s *service) FindHistorical(ctx context.Context, vin string) domain.ApiResp
 			CustomerID: val.CustomerID,
 			Notes:      val.Notes,
 			PIC:        val.PIC,
+			Date:       val.CreatedAt.Format(time.RFC822Z),
 		})
 	}
 

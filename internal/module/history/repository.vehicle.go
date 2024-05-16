@@ -32,7 +32,8 @@ func (r *repository) FindByVehicleID(ctx context.Context, vehicle_id int64) (his
 		}).
 		Order(goqu.I("id").Asc())
 
-	_, err = dataset.ScanStructContext(ctx, &histories)
+	// Pass a pointer to the slice
+	err = dataset.ScanStructsContext(ctx, &histories)
 
 	return
 }

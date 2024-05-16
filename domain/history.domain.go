@@ -27,4 +27,5 @@ type HistoryData struct {
 	CustomerID int64  `json:"customer_id"`
 	Notes      string `json:"notes"`
 	PIC        string `json:"pic"`
+	Date       string `json:"date"`
 }
